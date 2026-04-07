@@ -1,6 +1,9 @@
 import { test, expect, Page} from '@playwright/test';
 import { LoginPage } from '../page/login';
 import { User } from '../page/User';
+import { Role, UserModel } from '../models/user.model';
+import {faker} from '@faker-js/faker'
+import {generateRandomNumber,saveJsonData} from "../utils/utils"
 
 let page:Page;
 
@@ -10,8 +13,8 @@ test.beforeAll(async({browser})=>{
 test.afterAll(async ()=>{
     await page.close();
 })
-
-test("Admin can login successfully", async()=>{
+test.describe.serial(async()=>{
+    test("Admin can login successfully",{tag:"@smoke"}, async()=>{
     await page.goto("https://dmoneyportal.roadtocareer.net/login");
     const login = new LoginPage(page)
     await login.userLogin("admin@dmoney.com","1234")
@@ -27,12 +30,24 @@ test("Admin can login successfully", async()=>{
 
 test("Search by user ID", async()=>{
     const user=new User(page);
-    user.searchUser("103384")
+    user.searchUser("103383")
     // await page.waitForTimeout(1000)
-    await expect(page).toHaveURL(/.*\/users\/103384\/?/);
+    await expect(page).toHaveURL(/.*\/users\/103383\/?/);
 })
 
-test("Create new user",async()=>{
+test("Create new user",{tag:"@smoke"},async()=>{
     const user=new User(page);
-    await user.createUser("Test customer 002","test.cus002@gmail.com", "1234", "01234567891", "123456789","Customer")
+    const userData:UserModel={
+        fullName:faker.person.fullName(),
+        email:`matata.ext+${generateRandomNumber(1000,9999)}@gmail.com`,
+        password:"1234",
+        phoneNumber:`0120${generateRandomNumber(1000000,9999999)}`,
+        nid:"123456789",
+        role:Role.Customer
+    }
+    await user.createUser(userData)
+    saveJsonData(userData,'resources/users.json')
 })
+})
+
+

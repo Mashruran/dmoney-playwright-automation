@@ -1,0 +1,18 @@
+[
+  {
+    "fullName": "Daniel Sipes",
+    "email": "matata.ext+4164@gmail.com",
+    "password": "1234",
+    "phoneNumber": "01203215812",
+    "nid": "123456789",
+    "role": "Customer"
+  },
+  {
+    "fullName": "Mr. Myron Rosenbaum PhD",
+    "email": "matata.ext+8155@gmail.com",
+    "password": "1234",
+    "phoneNumber": "01208473210",
+    "nid": "123456789",
+    "role": "Customer"
+  }
+]
